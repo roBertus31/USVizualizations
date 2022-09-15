@@ -5,8 +5,12 @@ Authors@R: person('Robert', 'Teal', email = 'grapesglace@gmail.com', role = c('c
 Description: A set of publicly available data to be used as visualizations over a leaflet U.S. map.
 License: MIT + file LICENSE
 Imports: 
+    attempt,
     config,
+    DT,
+    glue,
     golem,
+    htmltools,
     shiny
 Encoding: UTF-8
 LazyData: true

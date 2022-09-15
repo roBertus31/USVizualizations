@@ -1,0 +1,15 @@
+Package: USVisualizations
+Title: US-Visualizations
+Version: 0.0.0.9000
+Authors@R: person('Robert', 'Teal', email = 'grapesglace@gmail.com', role = c('cre', 'aut'))
+Description: A set of publicly available data to be used as visualizations over a leaflet U.S. map.
+License: MIT + file LICENSE
+Imports: 
+    config,
+    golem,
+    shiny
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+URL: https://github.com/roBertus31/USVizualizations.git
+BugReports: https://github.com/roBertus31/USVizualizations.git/issues

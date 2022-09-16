@@ -6,5 +6,10 @@
 #' @noRd
 app_server <- function( input, output, session ) {
   # List the first level callModules here
+  #####################################
+  mod_mapView_server(id = "map1")
+  #####################################
+  
+  #####################################
 
 }

@@ -3,17 +3,29 @@
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import bs4Dash
 #' @noRd
 app_ui <- function(request) {
-  tagList(
+  shiny::fluidPage(
+    theme = bslib_base_theme,
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # List the first level UI elements here 
-    fluidPage(
-      h1("USVisualizations")
+    
+    shiny::navbarPage(
+      title = "US Visualizations",
+      shiny::tabPanel(
+        "Map View",
+        ###########################
+        mod_mapView_ui(id = "map1")
+        ###########################
+      )
     )
+    
   )
 }
+
+
 
 #' Add external Resources to the Application
 #' 
@@ -28,7 +40,7 @@ golem_add_external_resources <- function(){
   add_resource_path(
     'www', app_sys('app/www')
   )
- 
+  
   tags$head(
     favicon(),
     bundle_resources(
@@ -39,4 +51,3 @@ golem_add_external_resources <- function(){
     # for example, you can add shinyalert::useShinyalert() 
   )
 }
-

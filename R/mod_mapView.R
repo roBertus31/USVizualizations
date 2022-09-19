@@ -28,8 +28,12 @@ mod_mapView_ui <- function(id){
         selected = "usdaCensus"
       ),
       uiOutput(
+        ns("dateSelect")
+      ),
+      uiOutput(
         ns("variableSelect")
-      )
+      ),
+      
     )
   )
 }
@@ -50,18 +54,21 @@ mod_mapView_server <- function(id){
     })
     
     ##############################################################################
+    #            <REACTIVE> select the date range if applicable                  #
+    ##############################################################################
+    dateRangeSelector <- reactive({
+      
+      
+      
+    })
+    
+    
+    ##############################################################################
     #            <REACTIVE> select the variable to visualize                     #
     ##############################################################################
-    varSelector <- reactive({
+    variableSelector <- reactive({
+     
       
-      if(dataSelect=="googleMobility"){
-        outputTags <- tagList(
-          selectInput(
-            id = ns("variableSelection"),
-            choices = 
-          )
-        )
-      }
       
     })
     

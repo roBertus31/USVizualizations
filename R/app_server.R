@@ -7,7 +7,7 @@
 app_server <- function( input, output, session ) {
   # List the first level callModules here
   #####################################
-  mod_mapView_server(id = "map1")
+  mod_mapView_server(id = "map1", monthly = monthlyData, map = USA)
   #####################################
   
   #####################################

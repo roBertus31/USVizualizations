@@ -11,6 +11,5 @@ golem::document_and_reload()
 # Run the application
 run_app(
   load("./inst/app/www/data/monthlyData.Rdata"),
-  load("./inst/app/www/data/usda.Rdata"),
   load("./inst/app/www/data/USA_geoData.Rdata")
 )

@@ -3,10 +3,15 @@
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @import bs4Dash
+#' @import shinyjs
 #' @noRd
 app_ui <- function(request) {
   shiny::fluidPage(
+    
+    shinyjs::useShinyjs(),
+    waiter::useWaiter(),
+    waiter::waiterShowOnLoad(html = startUpScreen),
+    
     theme = bslib_base_theme,
     # Leave this function for adding external resources
     golem_add_external_resources(),

@@ -56,6 +56,12 @@ mod_mapView_server <- function(id, monthly, map){
     
     ns <- NS(id)
     
+    waitMap <- waiter::Waiter$new(
+      c(ns("mapView")),
+      html = busyScreen,
+      color = waiter::transparent()
+    )
+    
     ##############################################################################
     #               <OUTPUT>   Create the leaflet map object                     #
     ##############################################################################
@@ -160,9 +166,12 @@ mod_mapView_server <- function(id, monthly, map){
     ##############################################################################
     observe({
       
+      # user inputs are used to subset the input data.
       varSelected <- input$variableSelect
       visualData <- vizData()[[varSelected]]
       
+      # show the css spinner to show that the app is working, and just sitting
+      waitMap$show()
       
       # draw and color the polygons based on user input
       leaflet::leafletProxy("mapView") %>% 
@@ -178,6 +187,8 @@ mod_mapView_server <- function(id, monthly, map){
           layerId = vizData()$GID_2
         ) 
       
+      # hide the css spinner afer the polygons are drawn
+      waitMap$hide()
     })
     
     

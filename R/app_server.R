@@ -5,7 +5,9 @@
 #' @import shiny
 #' @noRd
 app_server <- function( input, output, session ) {
-  # List the first level callModules here
+
+  waiter::waiter_hide()
+  
   #####################################
   mod_mapView_server(id = "map1", monthly = monthlyData, map = USA)
   #####################################

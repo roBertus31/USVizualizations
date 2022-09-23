@@ -11,6 +11,7 @@ Imports:
     glue,
     golem,
     htmltools,
+    pkgload,
     shiny
 Encoding: UTF-8
 LazyData: true

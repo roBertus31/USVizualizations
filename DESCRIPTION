@@ -12,6 +12,8 @@ Imports:
     golem,
     htmltools,
     pkgload,
+    waiter,
+    shinyjs,
     shiny
 Encoding: UTF-8
 LazyData: true

@@ -18,12 +18,19 @@ mod_mapView_ui <- function(id){
     ),
     absolutePanel(
       id = ns("controls"),
-      top = 75,
-      left = 55,
+      top = 250,
+      left = 100,
       width = 250,
       fixed = TRUE,
       draggable = TRUE,
       height = "auto",
+      tags$p("This application uses Google's publicly available Covid-19 mobility data reports available through the link below."),
+      tags$a(
+        "www.google.com/covid19/mobility",
+        target = "_blank",
+        href = "https://www.google.com/covid19/mobility/"
+      ),
+      tags$br(),
       selectInput(
         ns("yearSelect"),
         label = "Select Year",

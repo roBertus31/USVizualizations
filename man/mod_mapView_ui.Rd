@@ -6,6 +6,15 @@
 \usage{
 mod_mapView_ui(id)
 }
+\arguments{
+\item{id}{Internal shiny parameter}
+
+\item{monthly}{A \code{list} object containing the aggregated Google data by
+year and month.}
+
+\item{map}{A \code{sf data.frame} with the geometry data needed for the 
+leaflet map.}
+}
 \description{
 Module for the map view tab
 }

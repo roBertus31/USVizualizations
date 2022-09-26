@@ -66,7 +66,7 @@ mod_mapView_ui <- function(id){
   )
 }
 
-mod_mapView_server <- function(id, monthly, map){
+mod_mapView_server <- function(id){
   
   moduleServer(id, function(input, output, session){
     
@@ -77,6 +77,9 @@ mod_mapView_server <- function(id, monthly, map){
       html = busyScreen,
       color = waiter::transparent()
     )
+    
+    load("./inst/app/www/data/monthlyData.Rdata")
+    load("./inst/app/www/data/USA_geoData.Rdata")
     
     ##############################################################################
     #               <OUTPUT>   Create the leaflet map object                     #
@@ -101,9 +104,9 @@ mod_mapView_server <- function(id, monthly, map){
     ##############################################################################
     dataSelector <- reactive({
       
-      yearIndex <- which(names(monthly)==as.character(input$yearSelect))
-      monthIndex <- which(names(monthly[[yearIndex]])==input$monthSelect)
-      filteredData <- monthly[[yearIndex]][[monthIndex]]
+      yearIndex <- which(names(monthlyData)==as.character(input$yearSelect))
+      monthIndex <- which(names(monthlyData[[yearIndex]])==input$monthSelect)
+      filteredData <- monthlyData[[yearIndex]][[monthIndex]]
       
       return(filteredData)
       
@@ -115,7 +118,7 @@ mod_mapView_server <- function(id, monthly, map){
     vizData <- reactive({
       
       # merging the processed Google data with the map definitions
-      temp <- sp::merge(
+      temp <- merge(
         usaSF, dataSelector(),
         by.x = c("NAME_1", "NAME_2"),
         by.y = c("sub_region_1", "sub_region_2"),

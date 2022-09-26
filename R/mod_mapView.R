@@ -2,6 +2,11 @@
 #' 
 #' @import shiny
 #' @importFrom magrittr %>%
+#' @param id Internal shiny parameter
+#' @param monthly A \code{list} object containing the aggregated Google data by
+#'   year and month.
+#' @param map A \code{sf data.frame} with the geometry data needed for the 
+#'   leaflet map.
 
 mod_mapView_ui <- function(id){
   
@@ -30,6 +35,10 @@ mod_mapView_ui <- function(id){
         target = "_blank",
         href = "https://www.google.com/covid19/mobility/"
       ),
+      tags$br(),
+      tags$a("View Code",
+             href = "https://github.com/roBertus31/USVizualizations",
+             target = "_blank"),
       tags$br(),
       selectInput(
         ns("yearSelect"),

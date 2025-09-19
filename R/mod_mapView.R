@@ -97,6 +97,25 @@ mod_mapView_server <- function(id){
         leaflet::addLayersControl(
           baseGroups = c("Aerial","Dark", "Greyscale")) %>%
         leaflet::setView(lat = 39.8283, lng = -98.5795, zoom =4)
+        
+    })
+    
+    ##############################################################################
+    #            <REACTIVE> Draw the polygon layer for the map                   #
+    ##############################################################################
+    observe({
+      leaflet::leafletProxy("mapView") %>% 
+        leaflet::addPolygons(
+          data = vizData(), weight = 0.5,
+          color = "black", fillOpacity = 0.7,
+          fillColor = "grey",
+          highlightOptions = leaflet::highlightOptions(
+            color = "#DE4968", weight = 1.5,
+            bringToFront = T, fillOpacity = 0.5
+          ),
+          layerId = vizData()$GID_2,
+          group = "polygons"
+        ) 
     })
     
     ##############################################################################
@@ -194,7 +213,8 @@ mod_mapView_server <- function(id){
       
       # draw and color the polygons based on user input
       leaflet::leafletProxy("mapView") %>% 
-        leaflet::clearShapes() %>% 
+        leaflet::clearGroup("polygons") %>%
+        leaflet::clearPopups() %>% 
         leaflet::addPolygons(
           data = vizData(), weight = 0.5,
           color = "black", fillOpacity = 0.7,
@@ -206,7 +226,7 @@ mod_mapView_server <- function(id){
           layerId = vizData()$GID_2
         ) 
       
-      # hide the css spinner afer the polygons are drawn
+      # hide the css spinner after the polygons are drawn
       waitMap$hide()
     })
     

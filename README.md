@@ -18,3 +18,5 @@ command:
 ``` r
 remotes::install_github("roBertus31/USVizualizations")
 ```
+
+<a href="https://tealrobert.shinyapps.io/usvisualizations/" target="_blank">View the application here...</a>

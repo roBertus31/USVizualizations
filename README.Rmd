@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r, include = FALSE, echo=FALSE, message=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -27,5 +27,11 @@ To install this package, use the `remotes` package, and the following command:
 
 ``` r
 remotes::install_github("roBertus31/USVizualizations")
+```
+
+```{r, echo=FALSE}
+htmltools::tags$a("View the application here...",
+       href = "https://tealrobert.shinyapps.io/usvisualizations/",
+       target = "_blank")
 ```
 

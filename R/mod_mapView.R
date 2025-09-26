@@ -13,6 +13,12 @@ mod_mapView_ui <- function(id){
   ns <- NS(id)
   
   tagList(
+    tags$style(
+    type = "text/css", 
+      ".leaflet-bottom.leaflet-left {
+      bottom: 50px;   /* moves legend up by 50px */
+      }"
+    ),
     leaflet::leafletOutput(
       ns("mapView"),
       width = "100%",
@@ -58,10 +64,11 @@ mod_mapView_ui <- function(id){
                     "Pharmacy & Grocery" = "groc_pharm",
                     "Parks/Outdoors" = "parks",
                     "Mass Transit Use" = "transit",
-                    "Work from work" = "workplaces",
-                    "At home" = "residences"),
+                    "Work from workplace" = "workplaces",
+                    "Work from home" = "residences"),
         selected = "retail_rec"
-      )
+      ),
+      actionButton(ns("infoButton"), "How to use?")
     )
   )
 }
@@ -92,11 +99,18 @@ mod_mapView_server <- function(id){
                                   options = leaflet::providerTileOptions(noWrap = TRUE)) %>%
         leaflet::addProviderTiles("Esri.WorldImagery", group = "Aerial", 
                                   options = leaflet::providerTileOptions(noWrap = TRUE)) %>%
-        leaflet::addProviderTiles("CartoDB.Positron", group = "Greyscale", 
+        leaflet::addProviderTiles("Thunderforest.Transport", group = "Street-map", 
                                   options = leaflet::providerTileOptions(noWrap = TRUE)) %>% 
         leaflet::addLayersControl(
-          baseGroups = c("Aerial","Dark", "Greyscale")) %>%
-        leaflet::setView(lat = 39.8283, lng = -98.5795, zoom =4)
+          baseGroups = c("Aerial","Dark", "Street-map")) %>%
+        leaflet::setView(lat = 39.8283, lng = -98.5795, zoom =4) %>% 
+        leaflet::addLegend(
+          position = "bottomleft",
+          pal = staticPal,
+          values = c(-100, 100),
+          opacity = 0.7,
+          title = "% Change from Baseline"
+        )
         
     })
     
@@ -144,7 +158,9 @@ mod_mapView_server <- function(id){
         all.x = T,
         duplicateGeoms = T
       )
-      
+      return(
+        sf::st_as_sf(x = temp)
+      )
     })
     
     ##############################################################################
@@ -171,32 +187,38 @@ mod_mapView_server <- function(id){
     #                     <REACTIVE> Create the color palette                    #
     ##############################################################################
     
-    paletteCreate <- reactive({
+    staticPal <- leaflet::colorNumeric(
+      palette = "plasma",
+      domain = c(-100, 100),
+      na.color = "grey"
+    )
+    #paletteCreate <- reactive({
       
-      colorBy <- input$variableSelect
+    #  colorBy <- input$variableSelect
       
-      leaflet::colorNumeric(palette = "plasma", domain = vizData()[[colorBy]], na.color = "grey")
+    #  leaflet::colorNumeric(palette = "plasma", domain = vizData()[[colorBy]], na.color = "grey")
       
-    })
+    #})
+    
     
     ##############################################################################
     #                         <REACTIVE> Create the legend                       #
     ##############################################################################
     
-    observe({
+    #observe({
       
-      colorBy <- input$variableSelect
+    #  colorBy <- input$variableSelect
       
-      leaflet::leafletProxy("mapView") %>% 
-        leaflet::clearControls() %>% 
-        leaflet::addLegend(
-          position = "bottomleft",
-          pal = paletteCreate(),
-          values = vizData()[[colorBy]],
-          opacity = 0.7
-        )
+    #  leaflet::leafletProxy("mapView") %>% 
+    #    leaflet::clearControls() %>% 
+    #    leaflet::addLegend(
+    #      position = "bottomleft",
+    #      pal = paletteCreate(),
+    #      values = vizData()[[colorBy]],
+    #      opacity = 0.7
+    #    )
       
-    })
+    #})
     
     
     ##############################################################################
@@ -218,7 +240,7 @@ mod_mapView_server <- function(id){
         leaflet::addPolygons(
           data = vizData(), weight = 0.5,
           color = "black", fillOpacity = 0.7,
-          fillColor = ~paletteCreate()(visualData),
+          fillColor = ~staticPal(visualData),
           highlightOptions = leaflet::highlightOptions(
             color = "#DE4968", weight = 1.5,
             bringToFront = T, fillOpacity = 0.5
@@ -230,6 +252,38 @@ mod_mapView_server <- function(id){
       waitMap$hide()
     })
     
+    ##############################################################################
+    #         <OBSERVE>   Display info modal with user instructions              #
+    ##############################################################################
+    observeEvent(input$infoButton, {
+      
+      showModal(
+        modalDialog(
+          title = "How to Use...",
+          tags$div(
+            h5("This application allows you interactively view anonymized data from Google's COVID-19 community mobility reports, aggregated to the county level for the United States of America. 
+               The data within shows changes in people's movement, relative to their pre-COVID baseline."), 
+            br(),
+            h5("For example: If a county's change in movement shows -41% in the popup, that means that there was a 41% decrease in movement in that category compared to the pre-COVID baseline movement. Pre-COVID baselines can be visualized for a category by selecting February 2020 as the time point to view."),
+            br(),
+            h5("There are six categories in these data."),
+            HTML(
+              "<ul>
+                <li>Movement to retail or recreational areas</li>
+                <li>Movement to pharmacy & grocery</li>
+                <li>Movement to parks or outdoor spaces</li>
+                <li>Use of modes of mass transit</li>
+                <li>Movement to workplaces for work</li>
+                <li>Movement, or lack of movement, for working from home</li>
+              </ul>"
+            )
+          ),
+          easyClose = TRUE,
+          footer = modalButton("Close")
+        )
+      )
+      
+    })
     
   })
 }

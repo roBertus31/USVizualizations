@@ -16,9 +16,10 @@ Imports:
     htmltools,
     leaflet,
     magrittr,
+    sf,
     shiny,
     shinyjs,
     waiter
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

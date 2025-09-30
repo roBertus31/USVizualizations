@@ -14,8 +14,8 @@ visualized through a shiny-app interface using the
 
 ### For local PC:
 
-To install this package, use the `remotes` package, and the following
-command:
+To install this application as a local R-package, use the `remotes` R-package, and the following
+command into an R-console:
 
 ``` r
 remotes::install_github("roBertus31/USVizualizations")
@@ -49,7 +49,7 @@ USVisualizations::run_app()
 
 <!-- -->
 
-    docker run -p 50000:50000 usvisualizations:latest
+    docker run -d -p 50000:50000 usvisualizations:latest
 
 6.  Finally, go to 127.0.0.1:50000 through a web browser of your choice.
 

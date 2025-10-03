@@ -1,5 +1,5 @@
 # Base image
-FROM rocker/verse:4.1.2
+FROM rocker/verse:4.4.2
 
 # Install system dependencies
 RUN apt-get update -y && apt-get install -y \

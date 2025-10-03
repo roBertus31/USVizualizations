@@ -3,7 +3,7 @@ FROM rocker/verse:4.4.2
 
 # Install system dependencies
 RUN apt-get update -y && apt-get install -y \
-    make pandoc zlib1g-dev cmake libgdal-dev gdal-bin libgeos-dev \
+    make pandoc zlib1g-dev cmake libgdal-dev gdal-bin libgeos-dev curl\
     libpng-dev libssl-dev libproj-dev libsqlite3-dev libudunits2-dev git && \
     rm -rf /var/lib/apt/lists/*
 
@@ -11,7 +11,7 @@ RUN apt-get update -y && apt-get install -y \
 RUN mkdir -p /usr/local/lib/R/etc/ /usr/lib/R/etc/ && \
     echo "options(renv.config.pak.enabled = FALSE, \
                   renv.install.allowArchivedPackages = TRUE, \
-                  repos = c(CRAN = 'https://cran.rstudio.com/'), \
+                  repos = c(CRAN = 'https://mirror.las.iastate.edu/CRAN/'), \
                   download.file.method = 'libcurl', \
                   Ncpus = 4)" | tee /usr/local/lib/R/etc/Rprofile.site | \
                   tee /usr/lib/R/etc/Rprofile.site
@@ -29,7 +29,7 @@ RUN mkdir -p /home/rstudio/.cache/R/renv \
 USER rstudio
 
 # Manually force the use of official CRAN repos
-ENV RENV_CONFIG_REPOS_OVERRIDE=https://cran.rstudio.com/
+ENV RENV_CONFIG_REPOS_OVERRIDE=https://mirror.las.iastate.edu/CRAN/
 
 # Copy and restore R environment (packages installed into rstudio's cache)
 COPY renv.lock.prod renv.lock

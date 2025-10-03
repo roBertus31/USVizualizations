@@ -10,8 +10,7 @@ RUN apt-get update -y && apt-get install -y \
 # Set R options globally
 RUN mkdir -p /usr/local/lib/R/etc/ /usr/lib/R/etc/ && \
     echo "options(renv.config.pak.enabled = FALSE, \
-                  renv.install.allowArchivedPackages = TRUE, \
-                  repos = c(CRAN = 'https://mirror.las.iastate.edu/CRAN/'), \
+                  repos = c(CRAN = 'https://cran.rstudio.com/'), \
                   download.file.method = 'libcurl', \
                   Ncpus = 4)" | tee /usr/local/lib/R/etc/Rprofile.site | \
                   tee /usr/lib/R/etc/Rprofile.site
@@ -29,7 +28,7 @@ RUN mkdir -p /home/rstudio/.cache/R/renv \
 USER rstudio
 
 # Manually force the use of official CRAN repos
-ENV RENV_CONFIG_REPOS_OVERRIDE=https://mirror.las.iastate.edu/CRAN/
+ENV RENV_CONFIG_REPOS_OVERRIDE=https://cran.rstudio.com/
 
 # Copy and restore R environment (packages installed into rstudio's cache)
 COPY renv.lock.prod renv.lock

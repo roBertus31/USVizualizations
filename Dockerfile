@@ -16,8 +16,7 @@ RUN mkdir -p /usr/local/lib/R/etc/ /usr/lib/R/etc/ && \
                   tee /usr/lib/R/etc/Rprofile.site
 
 # Install renv under root first (needed for restore)
-RUN R -e 'install.packages("remotes")' && \
-    R -e 'remotes::install_version("renv", version = "1.0.3")'
+RUN R -e 'install.packages("remotes"); remotes::install_version("renv", version = "1.0.3")'
 
 # --- FIX: create user-owned cache directories ---
 RUN mkdir -p /home/rstudio/.cache/R/renv \
@@ -32,8 +31,7 @@ ENV RENV_CONFIG_REPOS_OVERRIDE=https://cran.rstudio.com/
 
 # Copy and restore R environment (packages installed into rstudio's cache)
 COPY renv.lock.prod renv.lock
-RUN --mount=type=cache,id=renv-cache,target=/home/rstudio/.cache/R/renv \
-    R -e 'renv::restore()'
+RUN --mount=type=cache,id=renv-cache,target=/home/rstudio/.cache/R/renv R -e 'options(renv.config.pak.enabled = FALSE); renv::restore()'
 
 # Install application package
 COPY USVisualizations_*.tar.gz /app.tar.gz

@@ -18,13 +18,6 @@ RUN mkdir -p /usr/local/lib/R/etc/ /usr/lib/R/etc/ && \
 # Install renv under root first (needed for restore)
 RUN R -e 'install.packages("remotes"); remotes::install_version("renv", version = "1.0.3")'
 
-# --- FIX: create user-owned cache directories ---
-RUN mkdir -p /home/rstudio/.cache/R/renv \
-             /home/rstudio/.cache/R/sass \
-    && chown -R rstudio:rstudio /home/rstudio/.cache
-
-# Switch to non-root user early so renv + installs run as rstudio
-USER rstudio
 
 # Manually force the use of official CRAN repos
 ENV RENV_CONFIG_REPOS_OVERRIDE=https://cran.rstudio.com/

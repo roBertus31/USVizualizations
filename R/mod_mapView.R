@@ -85,8 +85,8 @@ mod_mapView_server <- function(id){
       color = waiter::transparent()
     )
     
-    load("./inst/app/www/data/monthlyData.Rdata")
-    load("./inst/app/www/data/USA_geoData.Rdata")
+    load("./data/monthlyData.Rdata")
+    load("./data/USA_geoData.Rdata")
     
     ##############################################################################
     #               <OUTPUT>   Create the leaflet map object                     #
